@@ -15,3 +15,7 @@ class Vertex:
 
     def getData(self):
         return self.data
+
+    def __str__(self):
+        return (" Vertice: %s \n Valor: %s" % (
+            self.id, self.data))

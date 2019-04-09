@@ -1,8 +1,9 @@
 class Edge:
-	def __init__(self, origin, destiny, weight = 0):
+	def __init__(self, origin, destiny, weight = 0, data):
 		self.origin = origin
 		self.destiny = destiny
 		self.weight = weight
+		self.data = data
 
 	def getOrigin(self):
 		return self.origin
@@ -21,3 +22,12 @@ class Edge:
 		
 	def setDestiny(self, vertex):
 		self.destiny = vertex
+
+	def setData(self, data):
+		self.data = data
+
+	def getData(self):
+		return self.data
+
+	def __str__(self):
+		return "E(%s----%s---->%s)" % (self.origin.getId(),self.data,self.destiny.getId())

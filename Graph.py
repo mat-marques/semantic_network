@@ -21,11 +21,11 @@ class Graph:
     def insert_vertex(self, id, data):
         self.list_vertices.append(Vertex(id, data))
     
-    def insert_edge(self, id_origin, id_destiny, weight):
+    def insert_edge(self, id_origin, id_destiny, weight, data):
         origin_aux = self.search_vertex(id_origin)
         destiny_aux = self.search_vertex(id_destiny)
         if (origin_aux is not None) and (destiny_aux is not None):
-            self.list_edges.append(Aresta(origin_aux, destiny_aux, weight))
+            self.list_edges.append(Edge(origin_aux, destiny_aux, weight, data))
         else:
             print("Um dos Vértices ou ambos são inválidos")
 
@@ -36,7 +36,24 @@ class Graph:
             return False
 
 
-    def remove(self):
+    def print_Graph_with_Destiny(self, origin, destiny):
+        destiny_Aux = self.search_vertex(destiny)
+        if len(destiny_Aux.predecessor) == 0:
+            print("Não ha caminho")
+        else:
+            print(destiny)
+            self.print_Graph(origin, destiny)
+
+    def print_Graph(self, origin, destiny):
+        if origin == destiny:
+            print("Fim")
+        else:
+            destiny_Aux = self.search_vertex(destiny)
+            if len(destiny_Aux.predecessor) == 0:
+                print("Não ha caminho")
+            else:
+                print(destiny_Aux.predecessor[0])
+                self.print_Graph(origin, destiny_Aux.predecessor[0])
         
     def deepSearch(self):
 
