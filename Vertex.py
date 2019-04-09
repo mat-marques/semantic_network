@@ -2,7 +2,6 @@ class Vertex:
     def __init__(self, id, data):
         self.id = id
         self.data = data
-        self.predecessor = []
 
     def setId(self, id):
         self.id = id
