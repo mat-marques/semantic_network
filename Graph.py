@@ -1,4 +1,7 @@
 # Implementar um grafo
+from Edge import *
+from Vertex import *
+
 class Graph:
     def __init__(self):
         self.list_vertices = []
@@ -10,6 +13,7 @@ class Graph:
             destiny = w.getDestiny()
             if origin.getId() == u.getId() and destiny.getId() == v.getId():
                 return w
+        return None
 
     def search_vertex(self, id):  # Método recebe um int
         for i in self.list_vertices:
@@ -36,25 +40,16 @@ class Graph:
             return False
 
 
-    def print_Graph_with_Destiny(self, origin, destiny):
-        destiny_Aux = self.search_vertex(destiny)
-        if len(destiny_Aux.predecessor) == 0:
-            print("Não ha caminho")
-        else:
-            print(destiny)
-            self.print_Graph(origin, destiny)
+    def print_Graph_first_level(self, origin, destiny):
+        origin_aux = self.search_vertex(origin)
+        destiny_aux = self.search_vertex(destiny)
 
-    def print_Graph(self, origin, destiny):
-        if origin == destiny:
-            print("Fim")
+        edge_aux = self.search_edge(origin_aux, destiny_aux)
+        if edge_aux is not None:
+            print(origin_aux.getData() + " " + edge_aux.getData()  + " " + destiny_aux.getData())
         else:
-            destiny_Aux = self.search_vertex(destiny)
-            if len(destiny_Aux.predecessor) == 0:
-                print("Não ha caminho")
-            else:
-                print(destiny_Aux.predecessor[0])
-                self.print_Graph(origin, destiny_Aux.predecessor[0])
+            print("Não há caminho!")
         
-    def deepSearch(self):
+    # def deepSearch(self):
 
-    def widthSearch(self):
+    # def widthSearch(self):
