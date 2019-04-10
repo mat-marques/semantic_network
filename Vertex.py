@@ -38,5 +38,5 @@ class Vertex:
         return self.data
 
     def __str__(self):
-        return (" Vertice: %s \n Valor: %s" % (
+        return ("Vertice: %s Valor: %s" % (
             self.id, self.data))
