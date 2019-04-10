@@ -40,7 +40,6 @@ class Graph:
         else:
             return False
 
-
     def print_Graph_first_level(self, origin, destiny):
         origin_aux = self.search_vertex(origin)
         destiny_aux = self.search_vertex(destiny)
