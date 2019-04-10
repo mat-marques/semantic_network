@@ -6,6 +6,7 @@ class Graph:
     def __init__(self):
         self.list_vertices = []
         self.list_edges = []
+        self.time = 0
 
     def search_edge(self, u, v):  # Método recebe dois objetos do tipo Vértice
         for w in self.list_edges:
@@ -52,4 +53,59 @@ class Graph:
         
     # def deepSearch(self):
 
-    # def widthSearch(self):
+    def search_adjacent(self, u):  # Método recebe um vertice
+        for i in range(len(self.list_edges)):
+            origin = self.list_edges[i].getOrigin()
+            destiny = self.list_edges[i].getDestiny()
+            if (u.getId() == origin.getId()) and (destiny.getVisited() == False):
+                destiny.setVisited(True)  # Para que não retorn o mesmo vertice seguidas veses
+                return destiny
+        else:
+            return None
+
+    def init_resource(self, resource):  # Função usado no BFS e Dijkstra Método recebe um Objeto
+        for v in self.lista_Vertices:
+            v.setEstimate(99999)
+            v.setVisited(False)
+        resource.setVisited(True)
+        resource.setEstimate(0)
+
+    def breadth_first_search(self, id):
+        resource = self.search_vertex(id)
+        if resource is None:
+            return "Vértce Nulo"
+        self.init_resource(resource)
+        l = [resource]
+        while 0 != len(l):
+            u = l[0]
+            v = self.search_adjacent(u)  # retorna adjacente não visitado
+            if v is None:
+                l.pop(0)  # retiro o vertice sem adjacentes
+
+            else:
+                self.time += 1
+                v.setTime(self.tempo)
+                v.predecessor.append(u.getId())
+                v.setVisited(True)
+                l.append(v)
+
+            u.setVisited(True)
+
+    def print_graph_with_destiny(self, origin, destiny):
+        destiny_Aux = self.search_vertex(destiny)
+        if len(destiny_Aux.predecessor) == 0:
+            print("Não ha caminho")
+        else:
+            print(destiny)
+            self.imprime_Grafo(origin, destiny)
+
+    def print_graph(self, origin, destiny):
+        if origin == destiny:
+            print("Fim")
+        else:
+            destiny_Aux = self.search_vertex(destiny)
+            if len(destiny_Aux.predecessor) == 0:
+                print("Não ha caminho")
+            else:
+                print(destiny_Aux.predecessor[0])
+                self.print_graph(origin, destiny_Aux.predecessor[0])
