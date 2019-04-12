@@ -26,16 +26,18 @@ class Graph:
     def search_vertex_by_data(self, id_name):  # Método recebe um int
         for i in self.list_vertices:
             if id_name == i.getData():
-                return i.getId()
+                return i
         else:
             return None
 
-    def insert_vertex(self, id, data):
-        self.list_vertices.append(Vertex(id, data))
+    def insert_vertex(self, data):
+        verify = self.search_vertex_by_data(data)
+        if verify is None:
+            self.list_vertices.append(Vertex(data))
     
     def insert_edge(self, id_origin, id_destiny, weight, data):
-        origin_aux = self.search_vertex(id_origin)
-        destiny_aux = self.search_vertex(id_destiny)
+        origin_aux = self.search_vertex_by_data(id_origin)
+        destiny_aux = self.search_vertex_by_data(id_destiny)
         if (origin_aux is not None) and (destiny_aux is not None):
             self.list_edges.append(Edge(origin_aux, destiny_aux, weight, data))
         else:
@@ -59,11 +61,11 @@ class Graph:
         
     # def deepSearch(self):
 
-    def search_adjacent(self, u, relation):  # Método recebe um vertice
+    def search_adjacent(self, u):  # Método recebe um vertice
         for i in range(len(self.list_edges)):
             origin = self.list_edges[i].getOrigin()
             destiny = self.list_edges[i].getDestiny()
-            if (u.getId() == origin.getId()) and (destiny.getVisited() == False):
+            if (u.getData() == origin.getData()) and (destiny.getVisited() == False):
                 destiny.setVisited(True)  # Para que não retorn o mesmo vertice seguidas veses
                 return (destiny, self.list_edges[i].getData())
         else:
@@ -87,7 +89,7 @@ class Graph:
         else:
             u_id = u
             v_id = v
-            
+
         resource = self.search_vertex(u_id)
         if resource is None:
             return "Vértice Nulo"
@@ -95,7 +97,7 @@ class Graph:
         l = [resource]
         while 0 != len(l):
             u = l[0]
-            v = self.search_adjacent(u, relation)  # retorna adjacente não visitado
+            v = self.search_adjacent(u)  # retorna adjacente não visitado
             if v is None:
                 l.pop(0)  # retiro o vertice sem adjacentes
 
@@ -128,6 +130,29 @@ class Graph:
             u.setVisited(True)
         path.clear()
         return path
+
+    def depth_first_search(self, u, relation, v):
+        for i in self.list_vertices:
+            i.setVisited(False)
+        u_id = self.search_vertex_by_data(u)
+        v_id = self.search_vertex_by_data(v)
+        lista = []
+        self.visita(u_id, relation, v_id, lista)
+
+    def visita(self, vertex, relation, v, lista):
+        print("Visitando o vértice %s"% vertex.getData())
+        vertex.setVisited(True)
+        vertexAux = self.search_adjacent(vertex)
+        while vertexAux is not None:
+            lista.append(vertexAux[1])
+            print(lista)
+            if v == vertexAux[0]:
+                print("ACHEI VÉRTICE")
+                break
+            self.visita(vertexAux[0], relation, v, lista)
+            lista.pop()
+            vertexAux = self.search_adjacent(vertex)
+
 
     def print_graph_with_destiny(self, origin, destiny):
         destiny_Aux = self.search_vertex(destiny)

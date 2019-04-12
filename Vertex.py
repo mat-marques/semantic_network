@@ -1,6 +1,6 @@
 class Vertex:
-    def __init__(self, id, data):
-        self.id = id
+    def __init__(self, data):
+        self.id = 0
         self.data = data
         self.predecessor = []
         self.visited = False
