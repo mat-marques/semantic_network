@@ -34,11 +34,10 @@ def main():
 
         else:
             if graph.depth_first_search(inp2[0], inp2[1], inp2[2]) == True:
-                print("Verdadeira")
+                print(inp +" => é verdadeira")
             else:
-                print("Falso")
+                print(inp +" => é falsa")
 
-    # file.close()
 
 if __name__ == "__main__":
     main()

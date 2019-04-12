@@ -130,10 +130,8 @@ class Graph:
 
 
     def visita(self, vertex, relation, v, lista):
-        print("Visitando o vértice %s"% vertex.getData())
         vertex.setVisited(True)
         if v == vertex:
-            print("ACHEI VÉRTICE")
             return True
         vertexAux = self.search_adjacent(vertex)
         while vertexAux is not None:
