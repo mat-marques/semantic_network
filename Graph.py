@@ -126,7 +126,7 @@ class Graph:
         v_id = self.search_vertex_by_data(v)
         lista = []
         self.visita(u_id, relation, v_id, lista)
-        return inference(lista, relation)
+        return self.inference(lista, relation)
 
 
     def visita(self, vertex, relation, v, lista):
