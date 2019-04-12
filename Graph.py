@@ -59,8 +59,6 @@ class Graph:
         else:
             print("Não há caminho!")
         
-    # def deepSearch(self):
-
     def search_adjacent(self, u):  # Método recebe um vertice
         for i in range(len(self.list_edges)):
             origin = self.list_edges[i].getOrigin()
@@ -71,28 +69,19 @@ class Graph:
         else:
             return None
 
-    def init_resource(self, resource):  # Função usado no BFS e Dijkstra Método recebe um Objeto
+    def init_resource(self, resource):  # Função usado no BFS Método recebe um Objeto
         for v in self.list_vertices:
-            v.setEstimate(99999)
             v.setVisited(False)
         resource.setVisited(True)
-        resource.setEstimate(0)
 
-    def breadth_first_search(self, u, relation, v):
+    def breadth_first_search(self, u_id, relation, v_id):
         r = 0
         path = []
-        u_id = 0
-        v_id = 0
-        if isinstance(u, str) and isinstance(v, str):
-            u_id = self.search_vertex_by_data(u)
-            v_id = self.search_vertex_by_data(v)
-        else:
-            u_id = u
-            v_id = v
 
-        resource = self.search_vertex(u_id)
+        resource = self.search_vertex_by_data(u_id)
         if resource is None:
-            return "Vértice Nulo"
+            return path
+
         self.init_resource(resource)
         l = [resource]
         while 0 != len(l):
@@ -107,7 +96,7 @@ class Graph:
                     v[0].setVisited(True)
                     l.append(v[0])
                     if v_id == v[0].getId():
-                        return path
+                        return (True, path)
 
                 elif relation == "tem" and (v[1] == "e_um" or v[1] == "tem"):
                     path.append((u.getData(), v[1], v[0].getData()))
@@ -116,7 +105,7 @@ class Graph:
                     if v[1] == "tem":
                         r = r + 1
                     if v_id == v[0].getId() and r > 0:
-                        return path
+                        return (True, path)
 
                 elif v[1] == "e_um" or v[1] == relation:
                     path.append((u.getData(), v[1], v[0].getData()))
@@ -125,11 +114,10 @@ class Graph:
                     if v[1] == relation:
                         r = r + 1
                     if v_id == v[0].getId() and r == 1:
-                        return path
+                        return (True, path)
 
             u.setVisited(True)
-        path.clear()
-        return path
+        return (False, path)
 
     def depth_first_search(self, u, relation, v):
         for i in self.list_vertices:
@@ -153,23 +141,23 @@ class Graph:
             lista.pop()
             vertexAux = self.search_adjacent(vertex)
 
-
-    def print_graph_with_destiny(self, origin, destiny):
-        destiny_Aux = self.search_vertex(destiny)
-        if len(destiny_Aux.predecessor) == 0:
-            print("Não ha caminho")
+    def inference(self, path, relation):
+        r = 0
+        for element in path:
+            if relation == "e_um" and element == "e_um":
+                r = r + 1
+            elif relation == "tem" and (element == "e_um" or element == "tem"):
+                if element == "tem":
+                    r = r + 1
+            elif relation == element or element == "e_um":
+                if element == relation:
+                    r = r + 1   
+        
+        if relation == "e_um" and r == len(path):
+            return True
+        elif relation == "tem" and r > 0:
+            return True
         else:
-            print(destiny)
-            self.print_graph(origin, destiny)
-
-    def print_graph(self, origin, destiny):
-        if origin == destiny:
-            print("Fim")
-        else:
-            destiny_Aux = self.search_vertex(destiny)
-            if len(destiny_Aux.predecessor) == 0:
-                print("Não ha caminho")
-            else:
-                print(destiny_Aux.predecessor[0])
-                self.print_graph(origin, destiny_Aux.predecessor[0])
-
+            if r == 1:
+                return True
+            return False

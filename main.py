@@ -23,12 +23,13 @@ def main():
         if method == "bfs":
             path = graph.breadth_first_search(inp2[0], inp2[1], inp2[2])
 
-            if len(path) == 0:
-                print(path)
-                print(inp +" => Inferência é falsa")
+            if not path[0]:
+                print(inp +" => é falsa")
             else:
-                print(path)
-                print(inp +" => Inferência é verdadeira")
+                print(inp +" => é verdadeira")
+                
+            print("")
+
         else:
             graph.depth_first_search(inp2[0], inp2[1], inp2[2])
 
