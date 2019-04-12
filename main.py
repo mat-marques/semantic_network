@@ -24,10 +24,12 @@ def main():
             path = graph.breadth_first_search(inp2[0], inp2[1], inp2[2])
 
             if not path[0]:
+                print(path[1])
                 print(inp +" => é falsa")
             else:
+                print(path[1])
                 print(inp +" => é verdadeira")
-                
+
             print("")
 
         else:

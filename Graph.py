@@ -95,7 +95,7 @@ class Graph:
                     path.append((u.getData(), "e_um", v[0].getData()))
                     v[0].setVisited(True)
                     l.append(v[0])
-                    if v_id == v[0].getId():
+                    if v_id == v[0].getData():
                         return (True, path)
 
                 elif relation == "tem" and (v[1] == "e_um" or v[1] == "tem"):
@@ -104,7 +104,7 @@ class Graph:
                     l.append(v[0])
                     if v[1] == "tem":
                         r = r + 1
-                    if v_id == v[0].getId() and r > 0:
+                    if v_id == v[0].getData() and r > 0:
                         return (True, path)
 
                 elif v[1] == "e_um" or v[1] == relation:
@@ -113,7 +113,7 @@ class Graph:
                     l.append(v[0])
                     if v[1] == relation:
                         r = r + 1
-                    if v_id == v[0].getId() and r == 1:
+                    if v_id == v[0].getData() and r == 1:
                         return (True, path)
 
             u.setVisited(True)
@@ -143,21 +143,24 @@ class Graph:
 
     def inference(self, path, relation):
         r = 0
+        cont = 0
         for element in path:
             if relation == "e_um" and element == "e_um":
                 r = r + 1
             elif relation == "tem" and (element == "e_um" or element == "tem"):
                 if element == "tem":
                     r = r + 1
+                cont = cont + 1
             elif relation == element or element == "e_um":
                 if element == relation:
-                    r = r + 1   
+                    r = r + 1 
+                cont = cont + 1 
         
         if relation == "e_um" and r == len(path):
             return True
-        elif relation == "tem" and r > 0:
+        elif relation == "tem" and r > 0 and cont == len(path):
             return True
         else:
-            if r == 1:
+            if r == 1 and cont == len(path):
                 return True
             return False
