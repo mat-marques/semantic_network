@@ -33,7 +33,8 @@ def main():
             print("")
 
         else:
-            graph.depth_first_search(inp2[0], inp2[1], inp2[2])
+            if graph.depth_first_search(inp2[0], inp2[1], inp2[2]) == True:
+                print("Verdadeira")
 
     # file.close()
 

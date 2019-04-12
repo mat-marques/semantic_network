@@ -126,20 +126,24 @@ class Graph:
         v_id = self.search_vertex_by_data(v)
         lista = []
         self.visita(u_id, relation, v_id, lista)
+        return inference(lista, relation)
+
 
     def visita(self, vertex, relation, v, lista):
         print("Visitando o vértice %s"% vertex.getData())
         vertex.setVisited(True)
+        if v == vertex:
+            print("ACHEI VÉRTICE")
+            return True
         vertexAux = self.search_adjacent(vertex)
         while vertexAux is not None:
             lista.append(vertexAux[1])
-            print(lista)
-            if v == vertexAux[0]:
-                print("ACHEI VÉRTICE")
-                break
-            self.visita(vertexAux[0], relation, v, lista)
-            lista.pop()
-            vertexAux = self.search_adjacent(vertex)
+            verify = self.visita(vertexAux[0], relation, v, lista)
+            if verify != True:
+                lista.pop()
+                vertexAux = self.search_adjacent(vertex)
+            else:
+                return True
 
     def inference(self, path, relation):
         r = 0
