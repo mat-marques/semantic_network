@@ -4,8 +4,8 @@ class Vertex:
         self.data = data
         self.predecessor = []
         self.visited = False
-        self.estimate = 999999
-        self.time = 0
+        self.currentAdjacent = 0
+        self.adjacent = 0
 
     def setVisited(self, valor):
         self.visited = valor
@@ -13,17 +13,17 @@ class Vertex:
     def getVisited(self):
         return self.visited
 
-    def setEstimate(self, estimate):
-        self.estimate = estimate
+    def setCurrentAdjacent(self, currentAdjacent):
+        self.currentAdjacent = currentAdjacent
 
-    def getEstimate(self):
-        return self.estimate
+    def getCurrentAdjacent(self):
+        return self.currentAdjacent
     
-    def setTime(self, time):
-        self.time = time
+    def setAdjacent(self, adjacent):
+        self.adjacent = adjacent
 
-    def getTime(self):
-        return self.time
+    def getAdjacent(self):
+        return self.adjacent
 
     def setId(self, id):
         self.id = id

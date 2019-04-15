@@ -14,29 +14,16 @@ def main():
 
     while True:
 
-        inp = input("Digite a entrada (vértice relacionamente destino) ou q para sair: ")
+        inp = input("Digite a entrada (vértice relacionamento destino) ou q para sair: ")
         if inp == "q":
             break
-        method = input("Digite o método de busca (dfs ou bfs): ")
 
         inp2 = inp.split(" ")
-        if method == "bfs":
-            path = graph.breadth_first_search(inp2[0], inp2[1], inp2[2])
-
-            if not path[0]:
-                #print(path[1])
-                print(inp +" => é falsa")
-            else:
-                #print(path[1])
-                print(inp +" => é verdadeira")
-
-            print("")
-
+        if graph.search_graph(inp2[0], inp2[1], inp2[2]):
+            print(inp +" => é verdadeira")
         else:
-            if graph.depth_first_search(inp2[0], inp2[1], inp2[2]) == True:
-                print(inp +" => é verdadeira")
-            else:
-                print(inp +" => é falsa")
+            print(inp +" => é falsa")
+        print()
 
 
 if __name__ == "__main__":

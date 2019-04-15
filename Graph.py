@@ -48,16 +48,6 @@ class Graph:
             return True
         else:
             return False
-
-    def print_Graph_first_level(self, origin, destiny):
-        origin_aux = self.search_vertex(origin)
-        destiny_aux = self.search_vertex(destiny)
-
-        edge_aux = self.search_edge(origin_aux, destiny_aux)
-        if edge_aux is not None:
-            print(origin_aux.getData() + " " + edge_aux.getData()  + " " + destiny_aux.getData())
-        else:
-            print("Não há caminho!")
         
     def search_adjacent(self, u):  # Método recebe um vertice
         for i in range(len(self.list_edges)):
@@ -69,79 +59,39 @@ class Graph:
         else:
             return None
 
-    def init_resource(self, resource):  # Função usado no BFS Método recebe um Objeto
-        for v in self.list_vertices:
-            v.setVisited(False)
-        resource.setVisited(True)
-
-    def breadth_first_search(self, u_id, relation, v_id):
-        r = 0
-        path = []
-
-        resource = self.search_vertex_by_data(u_id)
-        if resource is None:
-            return path
-
-        self.init_resource(resource)
-        l = [resource]
-        while 0 != len(l):
-            u = l[0]
-            v = self.search_adjacent(u)  # retorna adjacente não visitado
-            if v is None:
-                l.pop(0)  # retiro o vertice sem adjacentes
-
-            else:
-                if relation == "e_um" and v[1] == "e_um":
-                    path.append((u.getData(), "e_um", v[0].getData()))
-                    v[0].setVisited(True)
-                    l.append(v[0])
-                    if v_id == v[0].getData():
-                        return (True, path)
-
-                elif relation == "tem" and (v[1] == "e_um" or v[1] == "tem"):
-                    path.append((u.getData(), v[1], v[0].getData()))
-                    v[0].setVisited(True)
-                    l.append(v[0])
-                    if v[1] == "tem":
-                        r = r + 1
-                    if v_id == v[0].getData() and r > 0:
-                        return (True, path)
-
-                elif v[1] == "e_um" or v[1] == relation:
-                    path.append((u.getData(), v[1], v[0].getData()))
-                    v[0].setVisited(True)
-                    l.append(v[0])
-                    if v[1] == relation:
-                        r = r + 1
-                    if v_id == v[0].getData() and r == 1:
-                        return (True, path)
-
-            u.setVisited(True)
-        return (False, path)
-
-    def depth_first_search(self, u, relation, v):
+    def search_graph(self, u, relation, v):
         for i in self.list_vertices:
             i.setVisited(False)
         u_id = self.search_vertex_by_data(u)
         v_id = self.search_vertex_by_data(v)
-        lista = []
-        self.visita(u_id, relation, v_id, lista)
-        return self.inference(lista, relation)
+        path = []
+        for i in range(len(self.list_edges)):
+            origin = self.list_edges[i].getOrigin()
+            destiny = self.list_edges[i].getDestiny()
+            if u_id.getData() == origin.getData():
+                path.append(self.list_edges[i].getData())
+                if self.visity(destiny, relation, v_id, path):
+                    return True
+            path.clear()
+        else:
+            return False
 
-
-    def visita(self, vertex, relation, v, lista):
-        vertex.setVisited(True)
-        if v == vertex:
-            return True
-        vertexAux = self.search_adjacent(vertex)
-        while vertexAux is not None:
-            lista.append(vertexAux[1])
-            verify = self.visita(vertexAux[0], relation, v, lista)
-            if verify != True:
-                lista.pop()
-                vertexAux = self.search_adjacent(vertex)
-            else:
+    def visity(self, u, relation, v, path):
+        if u.getData() == v.getData():
+            if self.inference(path, relation):
                 return True
+            else:
+                return False
+        for i in range(len(self.list_edges)):
+            origin = self.list_edges[i].getOrigin()
+            destiny = self.list_edges[i].getDestiny()
+            if u.getData() == origin.getData():
+                path.append(self.list_edges[i].getData())
+                if self.visity(destiny, relation, v, path):
+                    return True
+                path.pop()
+        else:
+            return False
 
     def inference(self, path, relation):
         r = 0
