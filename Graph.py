@@ -64,6 +64,8 @@ class Graph:
             i.setVisited(False)
         u_id = self.search_vertex_by_data(u)
         v_id = self.search_vertex_by_data(v)
+        if u_id is None or v_id is None:
+            return False
         path = []
         for i in range(len(self.list_edges)):
             origin = self.list_edges[i].getOrigin()
